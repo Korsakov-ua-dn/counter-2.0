@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Block_1 from './Components/Block_1'
+import Block_2 from './Components/Block_2'
+
+export type DataType = {
+  start: any
+  max: any
+}
 
 function App() {
+
+  let startAsString = localStorage.getItem("start")
+  let maxAsString = localStorage.getItem("max")
+  let newStart;
+  let newMax;
+
+  if (startAsString && maxAsString) {
+    newStart = JSON.parse(startAsString)
+    newMax = JSON.parse(maxAsString)
+  }
+
+  let [data, setData] = useState({start: newStart, max: newMax})
+
+  const changeData = () => {
+   setData({...data})
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Block_1 data={data} changeData={changeData}/>
+      <Block_2 />
     </div>
   );
 }
