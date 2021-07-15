@@ -1,9 +1,0 @@
-.contentWrapper {
-    display: flex;
-    justify-content: space-around;
-}
-
-.span {
-    color: "cyan";
-    font-size: "24px";
-}

@@ -1,41 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import Block_1 from './Components/Block_1'
-import Block_2 from './Components/Block_2'
+import Block1 from './Components/Block1'
+import Block2 from './Components/Block2'
 
 export type DataType = {
   start: number
   max: number
+  current: number | undefined
 }
 
 function App() {
   console.log("Rerender App");
 
-  let startAsString = localStorage.getItem("start")
-  let maxAsString = localStorage.getItem("max")
-  let start;
-  let max;
+  let [error, setError] = useState('Invalid value')
+  let [data, setData] = useState<DataType | null>(null)
 
-  if (startAsString && maxAsString) {
-    start = JSON.parse(startAsString)
-    max = JSON.parse(maxAsString)
-  }
-  
-  let [error, setError] = useState('press set')
-
-  let [data, setData] = useState<DataType>({start, max})
-
-  const changeData = (start: number, max: number) => {
+  const setBasicDataValue = (start: number, max: number) => {
     localStorage.setItem("start", JSON.stringify(start))
     localStorage.setItem("max", JSON.stringify(max))
-    setData({start, max})
+    setData({ start, max, current: start })
+  }
+  const changeCurrentDataValue = (current: number) => {
+    setData((data) => data ? ({ ...data, current }) : data)
   }
 
+  useEffect(() => {
+    let startAsString = localStorage.getItem("start")
+    let maxAsString = localStorage.getItem("max")
+    
+    if (startAsString && maxAsString) {
+      const start = JSON.parse(startAsString)
+      const max = JSON.parse(maxAsString)
+       
+      setData({start, max, current: start})
+      setError('')
+    } else {
+      setData({ start: 0, max: 0, current: 0 })
+    }
+  }, [])
 
-  return (
+  useEffect(() => console.log(error), [error])
+  console.log(error)
+
+  return !data ? null : (
     <div className="App">
-      <Block_1 data={data} changeData={changeData} setError={setError} error={error}/>
-      <Block_2 error={error} data={data} />
+      <Block1 data={data} setBasicDataValue={setBasicDataValue} setError={setError} error={error} />
+      <Block2 data={data} error={error} setError={setError} changeCurrentDataValue={changeCurrentDataValue} />
     </div>
   );
 }
