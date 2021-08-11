@@ -39,9 +39,6 @@ function App() {
     }
   }, [])
 
-  useEffect(() => console.log(error), [error])
-  console.log(error)
-
   return !data ? null : (
     <div className="App">
       <Block1 data={data} setBasicDataValue={setBasicDataValue} setError={setError} error={error} />

@@ -7,6 +7,8 @@ type ButtonPropsType = {
 }
 
 const Button :React.FC<ButtonPropsType> = ({title, callback, disable}) => {
+    console.log("Button");
+    
     return (
         <button disabled={disable} onClick={callback} className={"btn"}>{title}</button>
     )

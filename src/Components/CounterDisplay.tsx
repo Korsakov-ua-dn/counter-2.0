@@ -1,18 +1,18 @@
 import React from 'react';
 import Button from './Button';
-import {DataType} from '../App'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppRootStateType } from '../store/store'
+import { StateType, setError } from '../store/counter-reducer'
+import { useState } from 'react';
 
-type Block_2Type = {
-    data: DataType
-    error: string
-    setError: (value: string) => void
-    changeCurrentDataValue: (current: number) => void
-}
+const CounterDisplay: React.FC = () => {
+    console.log('CounterDisplay')
 
-const Block2: React.FC<Block_2Type> = ({data, error, setError, changeCurrentDataValue}) => {
-    console.log('rerender B2');
+    const state = useSelector<AppRootStateType, StateType>(state => state.data)
+    const dispatch = useDispatch()
+    const error = state.error
     
-    let current = data.current
+    let [current, setCurrent] = useState(state.start)
     
     const content = () => {
         switch (error) {
@@ -27,12 +27,12 @@ const Block2: React.FC<Block_2Type> = ({data, error, setError, changeCurrentData
     }
 
     const inc = () => {
-        if (current || current === 0) changeCurrentDataValue(++current)
-        if (current === data.max) setError('invalid current')
+        if (current || current === 0) setCurrent(++current)
+        if (current === state.max) dispatch(setError('invalid current'))
     }
     const reset = () => {
-        setError('')
-        changeCurrentDataValue(data.start)
+        dispatch(setError(''))
+        setCurrent(state.start)
     }
 
     return (
@@ -42,10 +42,10 @@ const Block2: React.FC<Block_2Type> = ({data, error, setError, changeCurrentData
             </div>
             <div className="btnWrapper">
                 <Button disable={error !== ''} callback={inc} title={"inc"}/>
-                <Button callback={reset} title={"reset"}/>
+                <Button disable={error !== ''} callback={reset} title={"reset"}/>
             </div>
         </div>
     )
 }
 
-export default Block2
+export default CounterDisplay
