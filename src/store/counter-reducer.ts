@@ -1,10 +1,10 @@
-type ActionType = ReturnType<typeof setError> | ReturnType<typeof setBasicDataValue>
+type ActionType = ReturnType<typeof setError> | ReturnType<typeof setDataValue>
 
 export type StateType = typeof initialState
 
 const initialState = {
-    start: 0,
-    max: 0,
+    start: null as null | number,
+    max: null as null | number,
     error: 'Invalid value'
 }
 
@@ -13,7 +13,7 @@ export const counterReducer = (state: StateType = initialState, action: ActionTy
         case ("SET_ERROR"): 
             return {...state, error: action.errorMessage}
 
-        case ("SET_BASIC_DATA_VALUE"):
+        case ("SET_DATA_VALUE"):
             return {...state, start: action.start, max: action.max}
             
         default:
@@ -22,4 +22,4 @@ export const counterReducer = (state: StateType = initialState, action: ActionTy
 }
 
 export const setError = (errorMessage: string) => ({type: "SET_ERROR", errorMessage} as const)
-export const setBasicDataValue = (start: number, max: number) => ({type: "SET_BASIC_DATA_VALUE", start, max} as const)
+export const setDataValue = (start: number, max: number) => ({type: "SET_DATA_VALUE", start, max} as const)

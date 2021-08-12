@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 
 type ButtonPropsType = {
     title: string
     callback: () => void
-    disable?: boolean
+    disable: boolean
 }
 
-const Button :React.FC<ButtonPropsType> = ({title, callback, disable}) => {
+const Button : React.FC<ButtonPropsType> = ({title, callback, disable}) => {
     console.log("Button");
     
     return (

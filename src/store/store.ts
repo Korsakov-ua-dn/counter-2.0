@@ -1,4 +1,4 @@
-import { combineReducers, createStore } from "redux";
+import { combineReducers, createStore } from "redux"
 import { counterReducer } from './counter-reducer'
 
 const rootReducer = combineReducers({
@@ -6,10 +6,11 @@ const rootReducer = combineReducers({
 })
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
-let preloadedState;
+let preloadedState
 
 const dataFromLocalstorage = localStorage.getItem("state")
 if (dataFromLocalstorage) {
+
     preloadedState = JSON.parse(dataFromLocalstorage)
 }
 
